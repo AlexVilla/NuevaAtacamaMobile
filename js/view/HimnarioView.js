@@ -28,13 +28,13 @@ var HimnarioView = function (store) {
                 if(nombre.charAt(0) == "¡" || nombre.charAt(0) == "¿" || nombre.charAt(0) == "\""){
                     nombre = nombre.charAt(0) + nombre.charAt(1).toUpperCase() + nombre.slice(2);
                 }else{
-                    nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);                    
+                    nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);
                 }
-                var nombre = nombre.replace(/él/gi,'Él');
-                var nombre = nombre.replace(/señor/gi,'Señor');
-                var nombre = nombre.replace(/dios/gi,'Dios');
-                var nombre = nombre.replace(/cristo/gi,'Cristo');
-                var nombre = nombre.replace(/jesucristo|jesuCristo/gi,'Jesucristo');
+                var nombre = nombre.replace(/él\s/gi,'Él ');
+                var nombre = nombre.replace(/señor\s/gi,'Señor ');
+                var nombre = nombre.replace(/dios\s/gi,'Dios ');
+                var nombre = nombre.replace(/cristo\s/gi,'Cristo ');
+                var nombre = nombre.replace(/jesucristo\s|jesuCristo\s/gi,'Jesucristo ');
                 himno[i].nombre = nombre;
             }
             $('.himno-list').html(HimnarioView.liTemplate(himno));

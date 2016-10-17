@@ -22,11 +22,11 @@ var LetraView = function (himno) {
                     } else {
                         contenido = contenido.charAt(0).toUpperCase() + contenido.slice(1);
                     }
-                    var contenido = contenido.replace(/él\s/gi, 'Él');
-                    var contenido = contenido.replace(/señor\s/gi, 'Señor');
-                    var contenido = contenido.replace(/dios\s/gi, 'Dios');
-                    var contenido = contenido.replace(/cristo\s/gi, 'Cristo');
-                    var contenido = contenido.replace(/jesucristo\s|jesuCristo\s/gi, 'Jesucristo');
+                    var contenido = contenido.replace(/él\s/gi, 'Él ');
+                    var contenido = contenido.replace(/señor\s/gi, 'Señor ');
+                    var contenido = contenido.replace(/dios\s/gi, 'Dios ');
+                    var contenido = contenido.replace(/cristo\s/gi, 'Cristo ');
+                    var contenido = contenido.replace(/jesucristo\s|jesuCristo\s/gi, 'Jesucristo ');
                 }
                 himno[i] = contenido;
             }
@@ -44,11 +44,11 @@ var LetraView = function (himno) {
                 var contenido = contenido.replace(/Chorus\S/gi, 'Coro ');
                 var contenido = contenido.replace(/Chorus\s/gi, 'Coro ');
                 var contenido = contenido.replace(/Chorus/gi, 'Coro ');
-                var contenido = contenido.replace(/él\s/gi, 'Él');
-                var contenido = contenido.replace(/señor\s/gi, 'Señor');
-                var contenido = contenido.replace(/dios\s/gi, 'Dios');
-                var contenido = contenido.replace(/cristo\s/gi, 'Cristo');
-                var contenido = contenido.replace(/jesucristo\s|jesuCristo\s/gi, 'Jesucristo');
+                var contenido = contenido.replace(/él\s/gi, 'Él ');
+                var contenido = contenido.replace(/señor\s/gi, 'Señor ');
+                var contenido = contenido.replace(/dios\s/gi, 'Dios ');
+                var contenido = contenido.replace(/cristo\s/gi, 'Cristo ');
+                var contenido = contenido.replace(/jesucristo\s|jesuCristo\s/gi, 'Jesucristo ');
                 var contenido = contenido.charAt(0).toUpperCase() + contenido.slice(1);
                 himno[i] = contenido;
             }

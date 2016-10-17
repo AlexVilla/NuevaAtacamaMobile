@@ -93,7 +93,7 @@
 
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" id="scroll">
                     <div class="center-content">
                         <pre>{{letra}}</pre>
                     </div>
@@ -104,7 +104,7 @@
                 reduceFontRecur("pre");
             });
 
-            myScroll = new IScroll('#himno-content', {
+            myScroll = new IScroll('#scroll', {
               zoom: true
             });
             function reduceFontRecur(elem){

@@ -17,18 +17,18 @@ var CalendarView = function () {
 //            if(JsonEvents[i].status==="confirmed")
 //                {
 //                    cal[i] = "elemento "+i;
-//                    cal[i].location = JsonEvents[i]['location'];                
+//                    cal[i].location = JsonEvents[i]['location'];
 //                    cal[i].endDate = JsonEvents[i]['end']['datetime'];
 //                    cal[i].startDate = JsonEvents[i]['start']['datetime'];
-//                    cal[i].location = JsonEvents[i]['summary'];                
+//                    cal[i].location = JsonEvents[i]['summary'];
 //                }
 //        }
 //        $('.calendar-content').html(CalendarView.liTemplate());
         return this;
-    }
+    };
 
     this.initialize();
-}
+};
 
 CalendarView.template = Handlebars.compile($("#calendar-tpl").html());
 //CalendarView.liTemplate = Handlebars.compile($("#calendar-li-tpl").html());

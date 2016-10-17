@@ -1,0 +1,169 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+</head>
+
+<body>
+
+    <script id="home-tpl" type="text/x-handlebars-template">
+        <div class="container">
+            <div class="row">
+                <div class="logo">
+                    <img alt="logo" class="img-responsive img-center">
+                </div>
+            </div>
+            <div class="row">
+                <div class="center-content">
+                    <div class="btn btn-complete btn-primary col-xs-12 col-md-12 goHimnario">
+                        <p id="himnario">Himnario</p>
+                    </div>
+                    <div class="btn btn-complete btn-primary col-xs-12 col-md-12 goOnline">
+                        <p id="transmision">Transmisión en Vivo</p>
+                    </div>
+                    <div class="btn btn-complete btn-primary col-xs-12 col-md-12 goCalendar">
+                        <p id="prox-actividades">Próximas Actividades</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script ...>
+            function changeImg(ancho){
+                if (ancho < 768){
+                    $(".logo > img").attr("src","img/logo-small.png");
+                }else if(ancho >=768 && ancho < 992){
+                    $(".logo > img").attr("src","img/logo-medium.png");
+                }else if (ancho >= 992 && ancho < 1200){
+                    $(".logo > img").attr("src","img/logo-large.png");
+                }else{        
+                    $(".logo > img").attr("src","img/logo-big.png");
+                }
+            }
+            
+            $(document).ready(function(){
+                changeImg($(window).width());
+            });
+            
+            $(window).resize(function(){
+                changeImg($(window).width());
+            });
+        <{{!}}/script>
+    </script>
+
+    <script id="himnario-tpl" type="text/x-handlebars-template">
+        <div class="container-fluid">
+            <div class='row color-heading'>
+                <div class="center">
+                    <a href='' id="atras" class="pull-left"><span class="glyphicon glyphicon-menu-left"></span></a>
+                    <h2 class="visible-xs-inline visible-sm-inline visible-md-inline">Himnario</h2>
+                </div>
+            </div>
+            <div class='row search-bar form-group'>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <label for="buscar"><span class="glyphicon glyphicon-search" style="color: #000"></span></label>
+                    <input class='search-key form-control' type="search" name="buscar" autofocus/>
+                </div>
+            </div>
+            <div>
+                <div class='list-group himno-list'></div>
+            </div>
+        </div>
+        <script ...>
+            $(document).ready(function () {
+                $('.search-key').focus();
+            }); 
+        <{{!}}/script>
+        </script>
+
+        <script id="himno-li-tpl" type="text/x-handlebars-template">
+            {{#.}}
+            <a class="list-group-item" href="#himno/{{this.numero}}">{{this.numero}} -  {{this.nombre}}</a> 
+            {{/.}}
+        </script>
+
+        <script id="himno-content" type="text/x-handlebars-template">
+            <div class="container-fluid">
+                <div class='row color-heading'>
+                    <div class="center">
+                        <a href='#himnario' id="atras" class="pull-left"><span class="glyphicon glyphicon-menu-left"></span></a>
+                        <h2 class="visible-xs-inline visible-sm-inline visible-md-inline himn-title">{{numero}} <br>{{nombre}}</h2>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="center-content">
+                        <pre>{{letra}}</pre>
+                    </div>
+                </div>
+            </div>
+            <script ...>
+            $(document).ready(function () {
+                reduceFontRecur("pre");
+            }); 
+            
+            function reduceFontRecur(elem){
+                var font = parseInt($(elem).css('font-size'));
+                $(elem).css('font-size', font - 1, 'important');
+                var element = parseInt($(elem).width());
+                var win = parseInt($(window).width());
+                if(element >= win){                
+                    reduceFontRecur(elem);
+                }else{
+                    $(elem).css('overflow', 'hidden', 'important');
+                    return;
+                }
+            }
+        <{{!}}/script>
+        </script>
+
+        <script id="calendar-tpl" type="text/x-handlebars-template">
+            <div class="container-fluid">
+                <div class='row color-heading'>
+                    <div class="center">
+                        <a href='' id="atras" class="pull-left"><span class="glyphicon glyphicon-menu-left"></span></a>
+                        <h2 class="visible-xs-inline visible-sm-inline visible-md-inline">Próximas Actividades</h2>
+                    </div>
+                </div>
+                <div class="past">
+
+                </div>
+                <div class="calendar-content">
+
+                </div>
+
+            </div>
+            <script ...>
+                formatGoogleCalendar.init({
+                    calendarUrl:'https://www.googleapis.com/calendar/v3/calendars/multimedia.calendar.nva@gmail.com/events?key=AIzaSyDVxTf06-uK3NJRZijMT1u1CA0W-na6BCU&maxResults=2500',
+                    past: false,
+                    upcoming: true,
+                    pastTopN: -1,
+                    upcomingTopN: 14,
+                    itemsTagName: 'p class="list-group-item"',
+                    upcomingSelector: '.calendar-content',
+                    pastSelector: '.past',
+                    upcomingHeading: '',
+                    pastHeading: '<h2>Past events</h2>',
+                    format:['*summary*', '*date*', '*location*']
+                });
+            <{{!}}/script>
+        </script>
+            
+            <script src="phonegap.js"></script>
+            <script src="js/lib/jquery.min.js"></script>
+            <script src="js/lib/bootstrap.min.js"></script>
+            <script src="js/lib/handlebars.js"></script>
+            <script src="js/lib/iscroll.js"></script>
+            <script src="js/lib/calendar-google.js"></script>
+            <script src="js/store/ls-store.js"></script>
+            <script src="js/view/HomeView.js"></script>
+            <script src="js/view/HimnarioView.js"></script>
+            <script src="js/view/LetraView.js"></script>
+            <script src="js/view/CalendarView.js"></script>
+            <script src="js/main.js"></script>
+</body>
+
+</html>

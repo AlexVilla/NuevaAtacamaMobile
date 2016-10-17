@@ -38,15 +38,15 @@
                     $(".logo > img").attr("src","img/logo-medium.png");
                 }else if (ancho >= 992 && ancho < 1200){
                     $(".logo > img").attr("src","img/logo-large.png");
-                }else{        
+                }else{
                     $(".logo > img").attr("src","img/logo-big.png");
                 }
             }
-            
+
             $(document).ready(function(){
                 changeImg($(window).width());
             });
-            
+
             $(window).resize(function(){
                 changeImg($(window).width());
             });
@@ -74,13 +74,13 @@
         <script ...>
             $(document).ready(function () {
                 $('.search-key').focus();
-            }); 
+            });
         <{{!}}/script>
         </script>
 
         <script id="himno-li-tpl" type="text/x-handlebars-template">
             {{#.}}
-            <a class="list-group-item" href="#himno/{{this.numero}}">{{this.numero}} -  {{this.nombre}}</a> 
+            <a class="list-group-item" href="#himno/{{this.numero}}">{{this.numero}} -  {{this.nombre}}</a>
             {{/.}}
         </script>
 
@@ -102,14 +102,17 @@
             <script ...>
             $(document).ready(function () {
                 reduceFontRecur("pre");
-            }); 
-            
+            });
+
+            var myScroll = new IScroll('.center-content', {
+              zoom: true
+            });
             function reduceFontRecur(elem){
                 var font = parseInt($(elem).css('font-size'));
                 $(elem).css('font-size', font - 1, 'important');
                 var element = parseInt($(elem).width());
                 var win = parseInt($(window).width());
-                if(element >= win){                
+                if(element >= win){
                     reduceFontRecur(elem);
                 }else{
                     $(elem).css('overflow', 'hidden', 'important');
@@ -151,7 +154,7 @@
                 });
             <{{!}}/script>
         </script>
-            
+
             <script src="phonegap.js"></script>
             <script src="js/lib/jquery.min.js"></script>
             <script src="js/lib/bootstrap.min.js"></script>

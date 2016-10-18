@@ -166,28 +166,42 @@
                         <h2 class="visible-xs-inline visible-sm-inline visible-md-inline">Próximas Actividades</h2>
                     </div>
                 </div>
-                <div class="past">
+
+                <div class="loader"></div>
+                <div class="past" style="display:none">
 
                 </div>
-                <div class="calendar-content">
+                <div class="calendar-content" style="display:none">
 
                 </div>
 
             </div>
             <script ...>
-                formatGoogleCalendar.init({
-                    calendarUrl:'https://www.googleapis.com/calendar/v3/calendars/multimedia.calendar.nva@gmail.com/events?key=AIzaSyDVxTf06-uK3NJRZijMT1u1CA0W-na6BCU&maxResults=2500',
-                    past: false,
-                    upcoming: true,
-                    pastTopN: -1,
-                    upcomingTopN: 14,
-                    itemsTagName: 'p class="list-group-item"',
-                    upcomingSelector: '.calendar-content',
-                    pastSelector: '.past',
-                    upcomingHeading: '',
-                    pastHeading: '<h2>Past events</h2>',
-                    format:['*summary*', '*date*', '*location*']
-                });
+            formatGoogleCalendar.init({
+                calendarUrl:'https://www.googleapis.com/calendar/v3/calendars/multimedia.calendar.nva@gmail.com/events?key=AIzaSyDVxTf06-uK3NJRZijMT1u1CA0W-na6BCU&maxResults=2500',
+                past: false,
+                upcoming: true,
+                pastTopN: -1,
+                upcomingTopN: 14,
+                itemsTagName: 'p class="list-group-item"',
+                upcomingSelector: '.calendar-content',
+                pastSelector: '.past',
+                upcomingHeading: '',
+                pastHeading: '<h2>Past events</h2>',
+                format:['*summary*', '*date*', '*location*']
+            });
+
+            function showEvents (){
+              $('.loader').hide();
+              $('.past').css('cssText', 'display:block');
+              $('.calendar-content').css('cssText', 'display:block');
+            };
+
+            $(document).ready(function(){
+              setTimeout(showEvents, 1000);
+            });
+
+
             <{{!}}/script>
         </script>
 

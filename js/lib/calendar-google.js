@@ -20,7 +20,7 @@ var formatGoogleCalendar = (function() {
         jQuery.getJSON(settings.calendarUrl, function(data) {
             data.items.forEach(function(item){
                 console.log(item);
-            })
+            });
         });
         jQuery.getJSON(settings.calendarUrl, function(data) {
             // Remove any cancelled events

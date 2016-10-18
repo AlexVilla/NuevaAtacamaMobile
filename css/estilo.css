@@ -11,25 +11,40 @@ pre {
     font-family: inherit !important;
     font-size: 20px !important;
     border: none !important;
+    border-radius: 0 !important;
     background-color: #fff !important;
     white-space: pre-wrap;
     word-break: break-word !important;
 }
 
-.flotante {
-    display:scroll;
-    position:fixed;
-    bottom:320px;
-    right:0px;
-    border-radius: 50%;
-    background-color: #62555c;
-    color: #FFFFFF;
+.contenedor-flotante {
+    width: 90px;
+    height: 240px;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
 }
 
-a,
-a:hover,
-a:active,
-a:visited {
+.flotante {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background: #62555c;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    border: none;
+    outline: none;
+    color: #FFF;
+    font-size: 36px;
+}
+
+.flotante2{
+  margin-bottom:85px;
+}
+a, a:hover, a:active, a:visited {
     color: white;
     text-decoration: none;
 }

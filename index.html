@@ -97,7 +97,14 @@
                     <div class="center-content">
                         <pre>{{letra}}</pre>
                     </div>
-                <span class="glyphicon glyphicon-plus flotante" aria-hidden="true" onclick="changeSize('plus')"></span>
+                    <div class="contenedor-flotante">
+                      <button class="flotante">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true" onclick="changeSize(1)"></span>
+                      </button>
+                      <button class="flotante flotante2">
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true" onclick="changeSize(2)"></span>
+                      </button>
+                    </div>
                 </div>
             </div>
             <script ...>
@@ -106,27 +113,44 @@
             });
 
             function reduceFontRecur(elem){
-                var font = parseInt($(elem).css('font-size'));
-                $(elem).css('font-size', font - 1, 'important');
+              console.log(elem);
+                var font = Math.round(parseInt($(elem).css('font-size')));
+                var fontText = "font-size: "+(font-1)+"px !important"
+                $(elem).attr('style', fontText);
                 var element = parseInt($(elem).width());
                 var win = parseInt($(window).width());
                 if(element >= win){
                     reduceFontRecur(elem);
                 }else{
                     $(elem).css('overflow', 'hidden', 'important');
-                    return;
+                    return true;
                 }
             }
 
             function changeSize(type){
-              var actualSize = $('pre').css('font-size');
+              console.log(type);
+              var sizeAttr = $('pre').attr('style').split(":");
+              var sizeCSS = $('pre').css('font-size').split(":");
+              var actualSizeAttr = Math.round(parseInt(sizeAttr[1].split(" ")[1]));
+              var actualSizeCSS = Math.round(parseInt(sizeCSS));
+              var actualSize = 0;
+              //verificar cual es el mayor tamaño de letra
+              if(actualSizeCSS>actualSizeAttr){
+                actualSize = actualSizeCSS;
+              }else if(actualSizeCSS<actualSizeAttr){
+                actualSize = actualSizeAttr;
+              }else{
+                actualSize = actualSizeAttr;
+              }
               var value = "";
-              var newSize = actualSize;
-              if (type == 'plus') {
-                var newSize = Math.round(parseInt(actualSize)) + 2;
+              var newSize = 0;
+              if (type == 1) {
+                console.log("plus");
+                var newSize = actualSize + 2;
                 var value = "font-size: "+newSize+"px !important";
-              }else if(type == 'minus'){
-                var newSize = Math.round(parseInt(actualSize)) - 2;
+              }else if(type == 2){
+                console.log("minus");
+                var newSize = actualSize - 2;
                 var value = "font-size: "+newSize+"px !important";
               }
               $('pre').css('cssText',value);

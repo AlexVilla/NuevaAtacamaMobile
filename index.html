@@ -93,10 +93,11 @@
 
                     </div>
                 </div>
-                <div class="row" id="scroll">
+                <div class="row">
                     <div class="center-content">
                         <pre>{{letra}}</pre>
                     </div>
+                <span class="glyphicon glyphicon-plus flotante" aria-hidden="true" onclick="changeSize('plus')"></span>
                 </div>
             </div>
             <script ...>
@@ -104,9 +105,6 @@
                 reduceFontRecur("pre");
             });
 
-            myScroll = new IScroll('#scroll', {
-              zoom: true
-            });
             function reduceFontRecur(elem){
                 var font = parseInt($(elem).css('font-size'));
                 $(elem).css('font-size', font - 1, 'important');
@@ -118,6 +116,20 @@
                     $(elem).css('overflow', 'hidden', 'important');
                     return;
                 }
+            }
+
+            function changeSize(type){
+              var actualSize = $('pre').css('font-size');
+              var value = "";
+              var newSize = actualSize;
+              if (type == 'plus') {
+                var newSize = Math.round(parseInt(actualSize)) + 2;
+                var value = "font-size: "+newSize+"px !important";
+              }else if(type == 'minus'){
+                var newSize = Math.round(parseInt(actualSize)) - 2;
+                var value = "font-size: "+newSize+"px !important";
+              }
+              $('pre').css('cssText',value);
             }
         <{{!}}/script>
         </script>
@@ -160,7 +172,6 @@
             <script src="js/lib/bootstrap.min.js"></script>
             <script src="js/lib/handlebars.js"></script>
             <script src="js/lib/iscroll.js"></script>
-            <script src="js/lib/iscroll-zoom.js"></script>
             <script src="js/lib/calendar-google.js"></script>
             <script src="js/store/ls-store.js"></script>
             <script src="js/view/HomeView.js"></script>

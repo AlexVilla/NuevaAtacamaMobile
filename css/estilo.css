@@ -16,6 +16,16 @@ pre {
     word-break: break-word !important;
 }
 
+.flotante {
+    display:scroll;
+    position:fixed;
+    bottom:320px;
+    right:0px;
+    border-radius: 50%;
+    background-color: #62555c;
+    color: #FFFFFF;
+}
+
 a,
 a:hover,
 a:active,

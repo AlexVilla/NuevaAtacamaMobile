@@ -175,6 +175,25 @@
 
                 </div>
 
+
+
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"></h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row">
+                          <div class="col-sm-6"><a class="btn btn-default calendar-btn" id="maps" role="button"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span><p>Abrir en maps</p></a></div>
+                        </div>
+                          <div class="col-sm-6"><a class="btn btn-default calendar-btn" id="calendar" role="button"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span><p>Añadir a calendario</p></a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
             </div>
             <script ...>
             var calendar = $.ajax(formatGoogleCalendar.init({
@@ -183,7 +202,7 @@
                   upcoming: true,
                   pastTopN: -1,
                   upcomingTopN: 14,
-                  itemsTagName: 'p class="list-group-item" onclick="openoptions()"',
+                  itemsTagName: 'p class="list-group-item" onclick="openoptions(this)"',
                   upcomingSelector: '.calendar-content',
                   pastSelector: '.past',
                   upcomingHeading: '',
@@ -202,10 +221,35 @@
               $('.calendar-content').css('cssText', 'display:block');
             };
 
-            /*$(document).ready(function(){
-              setTimeout(showEvents, 5000);
-            });*/
+            function openoptions(element) {
+              var actividad = $(element).children('.summary').text();
+              var direccion = $(element).children('.location').text().replace(/\s/gi,"+").split('/');
+              var LocationURL = showMap(direccion);
+              var CalendarURL = "";
+              console.log(LocationURL);
+              var modal = $('#myModal');
+              modal.find('.modal-title').text(actividad);
+              modal.find('#maps').attr('href',LocationURL);
+              modal.find('#calendar').attr('href',CalendarURL);
+              $('#myModal').modal();
+            }
 
+
+            function showMap(q){
+              var device = navigator.userAgent;
+              var url = 'http://maps.google.com?q='+q;
+              if (device.match(/Iphone/i) || device.match(/iPhone|iPad|iPod/i))
+              {
+              // iOs
+              url='http://maps.apple.com/maps?q=Current%20Location&daddr='+q;
+              }
+              else if(device.match(/Android/i))
+              {
+              // Android
+              url='geo:0,0?q='+q;
+              }
+              return url;
+              }
 
             <{{!}}/script>
         </script>

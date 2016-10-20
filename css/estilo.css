@@ -150,6 +150,7 @@ span.location {
 .calendar-btn{
   width: 100%;
   margin: 0 auto;
+  color: #000000 !important;
 }
 
 a.calendar-btn>span.glyphicon{

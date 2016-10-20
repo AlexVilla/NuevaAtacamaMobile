@@ -186,9 +186,9 @@
                       </div>
                       <div class="modal-body">
                         <div class="row">
-                          <div class="col-sm-6"><a class="btn btn-default calendar-btn" id="maps" role="button"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span><p>Abrir en maps</p></a></div>
+                          <div class="col-sm-12"><a class="btn btn-default calendar-btn" id="maps" role="button"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span><p>Abrir en maps</p></a></div>
+                          <div class="col-sm-12"><a class="btn btn-default calendar-btn" id="calendar" role="button"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span><p>Añadir a calendario</p></a></div>
                         </div>
-                          <div class="col-sm-6"><a class="btn btn-default calendar-btn" id="calendar" role="button"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span><p>Añadir a calendario</p></a></div>
                       </div>
                     </div>
                   </div>
@@ -224,16 +224,42 @@
             function openoptions(element) {
               var actividad = $(element).children('.summary').text();
               var direccion = $(element).children('.location').text().replace(/\s/gi,"+").split('/');
-              var LocationURL = showMap(direccion);
-              var CalendarURL = "";
+              var LocationURL = showMap(direccion[0]);
+              var date = $(element).children('.date').text();;
               console.log(LocationURL);
               var modal = $('#myModal');
               modal.find('.modal-title').text(actividad);
               modal.find('#maps').attr('href',LocationURL);
-              modal.find('#calendar').attr('href',CalendarURL);
+              modal.find('#calendar').attr('data-date',date);
+              modal.find('#calendar').attr('data-title',actividad);
+              modal.find('#calendar').attr('data-location',direccion);
               $('#myModal').modal();
-            }
+            };
 
+            $('#calendar').on('click', function(){
+              var dateL = $(this).attr('data-date').split('desde');
+              var dateC = dateL[0].split('de');
+              var hourC = dateL[1].split('-');
+
+              var meses = {'Enero':'Jan', 'Febrero':'Feb', 'Marzo':'Mar', 'Abril':'Apr', 'Mayo':'May', 'Junio':'Jun', 'July':'Jul', 'Agosto':'Aug', 'Septiembre':'Sept', 'Octubre':'Oct', 'Noviembre':'Nov', 'Diciembre':'Dec'}
+
+              var dia = dateC[0].trim();
+              var mesEsp = dateC[1].trim();
+              var mes = meses[mesEsp];
+              var año = dateC[2].trim();
+              var fecha = mes +' '+ dia+' '+año;
+
+              //MES, DIA, AÑO
+              var startDate = new Date(fecha, hourC[0]);
+              var endDate = new Date(fecha, hourC[1]);
+              var title = $(this).attr('data-title');
+              var location = $(this).attr('data-location').replace('+',' ');
+              console.log(startDate);
+              console.log(endDate);
+              console.log(title);
+              console.log(location);
+              window.plugins.calendar.createEventInteractively(title, location, '', startDate, endDate);
+            });
 
             function showMap(q){
               var device = navigator.userAgent;
@@ -250,7 +276,6 @@
               }
               return url;
               }
-
             <{{!}}/script>
         </script>
 

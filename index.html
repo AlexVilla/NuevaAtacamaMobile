@@ -198,9 +198,9 @@
             <script ...>
             var calendar = $.ajax(formatGoogleCalendar.init({
                   calendarUrl:'https://www.googleapis.com/calendar/v3/calendars/multimedia.calendar.nva@gmail.com/events?key=AIzaSyDVxTf06-uK3NJRZijMT1u1CA0W-na6BCU&maxResults=2500',
-                  past: false,
+                  past: true,
                   upcoming: true,
-                  pastTopN: -1,
+                  pastTopN: 1000,
                   upcomingTopN: 14,
                   itemsTagName: 'p class="list-group-item" onclick="openoptions(this)"',
                   upcomingSelector: '.calendar-content',
@@ -239,26 +239,37 @@
             $('#calendar').on('click', function(){
               var dateL = $(this).attr('data-date').split('desde');
               var dateC = dateL[0].split('de');
-              var hourC = dateL[1].split('-');
+
+              var sHour = '';
+              var eHour = '';
+              if (dateL.length>1) {
+                var hourC = dateL[1].split('-');
+                sHour = hourC[0].trim();
+                eHour = hourC[1].trim();
+              }
 
               var meses = {'Enero':'Jan', 'Febrero':'Feb', 'Marzo':'Mar', 'Abril':'Apr', 'Mayo':'May', 'Junio':'Jun', 'July':'Jul', 'Agosto':'Aug', 'Septiembre':'Sept', 'Octubre':'Oct', 'Noviembre':'Nov', 'Diciembre':'Dec'}
 
-              var dia = dateC[0].trim();
               var mesEsp = dateC[1].trim();
-              var mes = meses[mesEsp];
-              var año = dateC[2].trim();
-              var fecha = mes +' '+ dia+' '+año;
 
+              var dia = dateC[0].trim();
+              var mes = meses[mesEsp];
+              var anio = dateC[2].trim();
               //MES, DIA, AÑO
-              var startDate = new Date(fecha, hourC[0]);
-              var endDate = new Date(fecha, hourC[1]);
+
+              startDateString = dia + ' ' + mes + ' ' + anio + ' ' + sHour;
+              console.log(startDateString);
+              //endDateString =
+              console.log(dateL);
+              var startDate = new Date(startDateString);
+              //var endDate = new Date(fecha, hourC[1].trim());
               var title = $(this).attr('data-title');
               var location = $(this).attr('data-location').replace('+',' ');
               console.log(startDate);
-              console.log(endDate);
+              //console.log(endDate);
               console.log(title);
               console.log(location);
-              window.plugins.calendar.createEventInteractively(title, location, '', startDate, endDate);
+              //window.plugins.calendar.createEventInteractively(title, location, '', startDate, endDate);
             });
 
             function showMap(q){
@@ -284,7 +295,7 @@
             <script src="js/lib/bootstrap.min.js"></script>
             <script src="js/lib/handlebars.js"></script>
             <script src="js/lib/iscroll.js"></script>
-            <script src="js/lib/calendar-google.js"></script>
+            <script src="js/lib/calendar-google-2.js"></script>
             <script src="js/store/ls-store.js"></script>
             <script src="js/view/HomeView.js"></script>
             <script src="js/view/HimnarioView.js"></script>

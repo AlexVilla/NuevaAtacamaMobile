@@ -18,17 +18,13 @@ var formatGoogleCalendar = (function() {
 
         //Get JSON, parse it, transform into list items and append it to past or upcoming events list
         jQuery.getJSON(settings.calendarUrl, function(data) {
-            data.items.forEach(function(item){
-                console.log(item);
-            });
-        });
-        jQuery.getJSON(settings.calendarUrl, function(data) {
             // Remove any cancelled events
             data.items.forEach(function removeCancelledEvents(item) {
                 if (item && item.hasOwnProperty('status') && item.status !== 'cancelled') {
                     result.push(item);
                 }
             });
+
             result.sort(comp).reverse();
 
             var pastCounter = 0,
@@ -114,11 +110,36 @@ var formatGoogleCalendar = (function() {
         return newObject;
     };
 
+    var isAllDay = function (dateStart, dateEnd) {
+      var dateStartFormatted = getDateFormatted(dateStart),
+          dateEndFormatted = getDateFormatted(dateEnd);
+
+      //if start date is midnight and the end date a following day midnight as well
+      if ((dateStartFormatted.getTime() === dateEndFormatted.getTime() - 86400000) &&
+          dateStartFormatted.getMinutes() === 0 &&
+          dateStartFormatted.getHours() === 0) {
+        return true;
+      }
+
+      return false;
+    };
+
     //Get all necessary data (dates, location, summary, description) and creates a list item
     var transformationList = function(result, tagName, format) {
         var dateStart = getDateInfo(result.start.dateTime || result.start.date),
             dateEnd = getDateInfo(result.end.dateTime || result.end.date),
-            dateFormatted = getFormattedDate(dateStart, dateEnd),
+            moreDaysEvent = (typeof result.end.date !== 'undefined'),
+            isAllDayEvent = isAllDay(dateStart, dateEnd);
+
+        if (moreDaysEvent) {
+          dateEnd = subtractOneDay(dateEnd);
+        }
+
+        if (isAllDayEvent) {
+          dateEnd = subtractOneMinute(dateEnd);
+        }
+
+        var dateFormatted = getFormattedDate(dateStart, dateEnd, moreDaysEvent, isAllDayEvent),
             output = '<' + tagName + '>',
             summary = result.summary || '',
             description = result.description || '',
@@ -129,13 +150,13 @@ var formatGoogleCalendar = (function() {
 
             format[i] = format[i].toString();
 
-            if (format[i] === '*summary*' && summary!='') {
-                output = output.concat('<span class="summary">' + summary + '</span> <br> ');
-            } else if (format[i] === '*date*' && dateFormatted!='') {
+            if (format[i] === '*summary*') {
+                output = output.concat('<span class="summary">' + summary + '</span> <br>');
+            } else if (format[i] === '*date*') {
                 output = output.concat('<span class="date">' + dateFormatted + '</span> <br>');
-            } else if (format[i] === '*description*' && description!='') {
+            } else if (format[i] === '*description*') {
                 output = output.concat('<span class="description">' + description + '</span> <br>');
-            } else if (format[i] === '*location*' && location!='') {
+            } else if (format[i] === '*location*') {
                 output = output.concat('<span class="location">' + location + '</span> <br>');
             } else {
                 if ((format[i + 1] === '*location*' && location !== '') ||
@@ -163,57 +184,80 @@ var formatGoogleCalendar = (function() {
         return false;
     };
 
-    //Get temp array with information abou day in followin format: [day number, month number, year]
+    //Get temp array with information abou day in followin format: [day number, month number, year, hours, minutes]
     var getDateInfo = function(date) {
         date = new Date(date);
-        return [date.getDate(), date.getMonth(), date.getFullYear(), date.getHours(), date.getMinutes()];
+        return [date.getDate(), date.getMonth(), date.getFullYear(), date.getHours(), date.getMinutes(), 0, 0];
     };
 
     //Get month name according to index
     var getMonthName = function(month) {
         var monthNames = [
-            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+              'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
 
         return monthNames[month];
     };
 
+    var getDateFormatted = function (dateInfo) {
+      return new Date(dateInfo[2], dateInfo[1], dateInfo[0], dateInfo[3], dateInfo[4] + 0, 0);
+    };
+
+    //Subtract one day
+    var subtractOneDay = function (dateInfo) {
+      var date = getDateFormatted(dateInfo);
+      date.setTime(date.getTime() - 86400000);
+      return getDateInfo(date);
+    };
+
+    //Subtract one minute
+    var subtractOneMinute = function (dateInfo) {
+      var date = getDateFormatted(dateInfo);
+      date.setTime(date.getTime() - 60000);
+      return getDateInfo(date);
+    };
+
     //Transformations for formatting date into human readable format
-    var formatDateSameDay = function(dateStart, dateEnd) {
+    var formatDateSameDay = function(dateStart, dateEnd, moreDaysEvent, isAllDayEvent) {
         var formattedTime = '';
 
-        if (config.sameDayTimes) {
-            formattedTime = ' desde ' + getFormattedTime(dateStart) + ' - ' + getFormattedTime(dateEnd);
+        if (config.sameDayTimes && !moreDaysEvent && !isAllDayEvent) {
+            formattedTime = ' desde ' + getFormattedTime(dateStart) + ' hasta ' + getFormattedTime(dateEnd);
         }
 
-        //month day, year time-time
-        return dateStart[0] + ' de ' + getMonthName(dateStart[1]) + ' de ' + dateStart[2] + formattedTime;
+        //day month year time-time
+        return  dateStart[0] + ' de asdss ' + getMonthName(dateStart[1])  + ' del ' + dateStart[2] + formattedTime;
+    };
+
+    var formatDateOneDay = function(dateStart) {
+      //day month, year
+      return dateStart[0] + ' de ' + getMonthName(dateStart[1]) + ' de ' + dateStart[2];
     };
 
     var formatDateDifferentDay = function(dateStart, dateEnd) {
         //month day-day, year
-        return dateStart[0] + ' - ' + dateEnd[0] +' de '+getMonthName(dateStart[1]) + ' de ' + dateStart[2];
+        return getMonthName(dateStart[1]) + ' ' + dateStart[0] + ' al ' + dateEnd[0] + ' de ' + dateStart[2];
     };
 
     var formatDateDifferentMonth = function(dateStart, dateEnd) {
         //month day - month day, year
-        return getMonthName(dateStart[1]) + ' ' + dateStart[0] + '-' + getMonthName(dateEnd[1]) + ' ' + dateEnd[0] + ' de ' + dateStart[2];
+        return getMonthName(dateStart[1]) + ' de ' + dateStart[0] + ' hasta' + getMonthName(dateEnd[1]) + ' de ' + dateEnd[0] + 'de ' + dateStart[2];
     };
 
     var formatDateDifferentYear = function(dateStart, dateEnd) {
-        //month day, year - month day, year
-        return getMonthName(dateStart[1]) + ' ' + dateStart[0] + ', ' + dateStart[2] + '-' + getMonthName(dateEnd[1]) + ' ' + dateEnd[0] + 'de ' + dateEnd[2];
+        //day month, year - date month, year
+        return dateStart[0] + ' de ' + getMonthName(dateStart[1]) + ' de ' + dateStart[2] + 'hasta' + dateEnd[0] + ' de ' + getMonthName(dateEnd[1]) + ' de ' + dateEnd[2];
     };
 
     //Check differences between dates and format them
-    var getFormattedDate = function(dateStart, dateEnd) {
+    var getFormattedDate = function(dateStart, dateEnd, moreDaysEvent, isAllDayEvent) {
         var formattedDate = '';
 
         if (dateStart[0] === dateEnd[0]) {
             if (dateStart[1] === dateEnd[1]) {
                 if (dateStart[2] === dateEnd[2]) {
                     //month day, year
-                    formattedDate = formatDateSameDay(dateStart, dateEnd);
+                    formattedDate = formatDateSameDay(dateStart, dateEnd, moreDaysEvent, isAllDayEvent);
                 } else {
                     //month day, year - month day, year
                     formattedDate = formatDateDifferentYear(dateStart, dateEnd);
@@ -281,7 +325,7 @@ var formatGoogleCalendar = (function() {
     return {
         init: function (settingsOverride) {
             var settings = {
-                calendarUrl: 'https://www.googleapis.com/calendar/v3/calendars/multimedia.calendar.nva@gmail.com/events?key=AIzaSyC2W7t0ZHJgoDu0ev4RYEJK4KjIYRCQIkA',
+                calendarUrl: 'https://www.googleapis.com/calendar/v3/calendars/milan.kacurak@gmail.com/events?key=AIzaSyCR3-ptjHE-_douJsn8o20oRwkxt-zHStY',
                 past: true,
                 upcoming: true,
                 sameDayTimes: true,

@@ -153,6 +153,9 @@ span.location {
   color: #000000 !important;
 }
 
+.calendar-content .list-group-item .dropdown {
+  top: -50px !important;
+}
 a.calendar-btn>span.glyphicon{
   color: #000000 !important;
   font-size: 2em;

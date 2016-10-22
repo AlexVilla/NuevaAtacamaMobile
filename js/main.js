@@ -96,6 +96,56 @@ var app = {
         $(window).on('hashchange', $.proxy(this.route, this));
     },
 
+    onDeviceReady: function () {
+        if (device.platform == "iOS") {
+            StatusBar.styleBlackOpaque();
+            StatusBar.overlaysWebView(false);
+            StatusBar.backgroundColorByHexString("#62555c");
+            $(".logo").css("margin", "10px 0");
+        }
+    },
+
+    onBackKeyDown: function (e) {
+        e.preventDefault();
+        var hash = window.location.hash;
+        if (hash === "") {
+            if (navigator.notification) {
+                var value = navigator.notification.confirm("¿Realmente desea salir de la aplicación?",  $.proxy(this.exit, this), 'Salir', ['Salir', 'Cancelar']);
+            } else {
+                navigator.app.exitApp();
+            }
+        }
+        var backURL = /^#himnario|^#himno\/(\d{1,})|#calendar/g;
+        if (!hash) {
+            $('body').html(new HomeView(this.store).render().el);
+            return;
+        }
+        //ver si el hash es igual al establecido en la variable detailsURL dentro de la funcion
+        //initialize, de ser así rendereriza lo que corresponde
+        var match = hash.match(backURL);
+        switch (String(match).split("/")[0]) {
+        case "#himnario":
+            window.location = '';
+            break;
+        case "#himno":
+            window.location.hash = '#himnario';
+            break;
+        case "#calendar":
+            window.location = '';
+            break;
+        default:
+            return;
+        }
+    },
+
+    exit: function (option) {
+        if (option == 1) {
+            navigator.app.exitApp();
+        } else {
+            window.location = '';
+        }
+    },
+
     initialize: function () {
         this.homeTpl = Handlebars.compile($("#home-tpl").html());
         this.detailsURL = /^#himnario|^#himno\/(\d{1,})|#calendar/g;
@@ -104,59 +154,9 @@ var app = {
             $('body').html(new HomeView(self.store).render().el);
             self.registerEvents();
         });
-        document.addEventListener("backbutton", onBackKeyDown, false);
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-        function onDeviceReady() {
-            if (device.platform == "iOS") {
-                StatusBar.styleBlackOpaque();
-                StatusBar.overlaysWebView(false);
-                StatusBar.backgroundColorByHexString("#62555c");
-                $(".logo").css("margin", "10px 0");
-            }
-        }
-
-        function onBackKeyDown(e) {
-            e.preventDefault();
-            var hash = window.location.hash;
-            if (hash == "") {
-                if (navigator.notification) {
-                    var value = navigator.notification.confirm("¿Realmente desea salir de la aplicación?", exit, 'Salir', ['Salir', 'Cancelar']);
-                } else {
-                    navigator.app.exitApp();
-                }
-            }
-            var backURL = /^#himnario|^#himno\/(\d{1,})|#calendar/g;
-            if (!hash) {
-                $('body').html(new HomeView(this.store).render().el);
-                return;
-            }
-            //ver si el hash es igual al establecido en la variable detailsURL dentro de la funcion
-            //initialize, de ser así rendereriza lo que corresponde
-            var match = hash.match(backURL);
-            switch (String(match).split("/")[0]) {
-            case "#himnario":
-                window.location = '';
-                break;
-            case "#himno":
-                window.location.hash = '#himnario';
-                break;
-            case "#calendar":
-                window.location = '';
-                break;
-            default:
-                return;
-            }
-        }
-
-        function exit(option) {
-            if (option == 1) {
-                navigator.app.exitApp();
-            } else {
-                window.location = '';
-            }
-        }
-    }
+        document.addEventListener("backbutton", $.proxy(this.onBackKeyDown, this), false);
+        document.addEventListener("deviceready", $.proxy(this.onDeviceReady, this), false);
+      }
 };
 
 app.initialize();

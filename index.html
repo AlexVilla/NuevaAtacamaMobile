@@ -99,10 +99,10 @@
                     </div>
                     <div class="contenedor-flotante">
                       <button class="flotante">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true" onclick="changeSize(1)"></span>
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true" onclick="changeSize(2)"></span>
                       </button>
                       <button class="flotante flotante2">
-                        <span class="glyphicon glyphicon-minus" aria-hidden="true" onclick="changeSize(2)"></span>
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true" onclick="changeSize(1)"></span>
                       </button>
                     </div>
                 </div>
@@ -200,7 +200,7 @@
                   calendarUrl:'https://www.googleapis.com/calendar/v3/calendars/multimedia.calendar.nva@gmail.com/events?key=AIzaSyDVxTf06-uK3NJRZijMT1u1CA0W-na6BCU&maxResults=2500',
                   past: true,
                   upcoming: true,
-                  pastTopN: 1000,
+                  pastTopN: 20,
                   upcomingTopN: 14,
                   itemsTagName: 'p class="list-group-item" onclick="openoptions(this)"',
                   upcomingSelector: '.calendar-content',
@@ -210,23 +210,12 @@
                   format:['*summary*', '*date*', '*location*']
               })
             );
-            calendar.success(function(){
-                console.log("qasd");
-                showEvents();
-            });
-
-          function showEvents (){
-              $('.loader').hide();
-              $('.past').css('cssText', 'display:block');
-              $('.calendar-content').css('cssText', 'display:block');
-            };
 
             function openoptions(element) {
               var actividad = $(element).children('.summary').text();
               var direccion = $(element).children('.location').text().replace(/\s/gi,"+").split('/');
               var LocationURL = showMap(direccion[0]);
               var date = $(element).children('.date').text();;
-              console.log(LocationURL);
               var modal = $('#myModal');
               modal.find('.modal-title').text(actividad);
               modal.find('#maps').attr('href',LocationURL);
@@ -237,40 +226,56 @@
             };
 
             $('#calendar').on('click', function(){
-              var dateL = $(this).attr('data-date').split('desde');
-              var dateC = dateL[0].split('de');
-
-              var sHour = '';
-              var eHour = '';
-              if (dateL.length>1) {
-                var hourC = dateL[1].split('-');
-                sHour = hourC[0].trim();
-                eHour = hourC[1].trim();
-              }
-
-              var meses = {'Enero':'Jan', 'Febrero':'Feb', 'Marzo':'Mar', 'Abril':'Apr', 'Mayo':'May', 'Junio':'Jun', 'July':'Jul', 'Agosto':'Aug', 'Septiembre':'Sept', 'Octubre':'Oct', 'Noviembre':'Nov', 'Diciembre':'Dec'}
-
-              var mesEsp = dateC[1].trim();
-
-              var dia = dateC[0].trim();
-              var mes = meses[mesEsp];
-              var anio = dateC[2].trim();
-              //MES, DIA, AÑO
-
-              startDateString = dia + ' ' + mes + ' ' + anio + ' ' + sHour;
-              console.log(startDateString);
-              //endDateString =
-              console.log(dateL);
-              var startDate = new Date(startDateString);
-              //var endDate = new Date(fecha, hourC[1].trim());
+              var oneDayEvent = $(this).attr('data-date').indexOf('al');
+              var moreDayEvent = $(this).attr('data-date').indexOf('desde');
               var title = $(this).attr('data-title');
-              var location = $(this).attr('data-location').replace('+',' ');
+              var location = $(this).attr('data-location').replace(/\+/g, ' ');
+
+              if (oneDayEvent != -1) {
+              //evento de un solo dia, por ende solo utilizo una fecha
+              var fechaInicio =$(this).attr('data-date').split('al')[0].replace(/\D|\d{4}/g, '');
+              var fechaFin =$(this).attr('data-date').split('al')[1].replace(/\D|\d{4}/g, '');
+              var mes;
+
+              }else if (moreDayEvent != -1) {
+              //evento de más de un día, por ende tengo fecha de termino y de inicio diferentes
+              var fecha = $(this).attr('data-date').split(/desde|hasta/g);
+              fecha[0] = transformDate(fecha[0]);
+              console.log(fecha);
+              var horaInicio = fecha[1];
+              var horaTermino = fecha[2];
+              var fecha = fecha[0];
+              var startDate = new Date(fecha + horaInicio);
+              var endDate = new Date(fecha + horaTermino);
               console.log(startDate);
-              //console.log(endDate);
-              console.log(title);
-              console.log(location);
-              //window.plugins.calendar.createEventInteractively(title, location, '', startDate, endDate);
+              console.log(endDate);
+              window.plugins.calendar.createEventInteractively(title, location, '', startDate, endDate);
+              }
             });
+
+            function transformDate(date){
+              date = date.split(/del{0,1}/g);
+              var meses = {
+                'Enero':'Jan',
+                'Febrero':'Feb',
+                'Marzo': 'Mar',
+                'Abril': 'Apr',
+                'Mayo': 'May',
+                'Junio': 'Jun',
+                'Julio': 'Jul',
+                'Agosto': 'Aug',
+                'Septiembre': 'Sep',
+                'Octubre': 'Oct',
+                'Noviembre': 'Nov',
+                'Diciembre': 'Dec',
+              }
+              date[0] = date[0].trim();
+              mes = date[1].trim();
+              date[1] = meses[mes];
+              date[2] = date[2].trim();
+              date = date.join(' ');
+              return date;
+            };
 
             function showMap(q){
               var device = navigator.userAgent;

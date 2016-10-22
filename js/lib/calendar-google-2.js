@@ -113,11 +113,10 @@ var formatGoogleCalendar = (function() {
     var isAllDay = function (dateStart, dateEnd) {
       var dateStartFormatted = getDateFormatted(dateStart),
           dateEndFormatted = getDateFormatted(dateEnd);
-
       //if start date is midnight and the end date a following day midnight as well
-      if ((dateStartFormatted.getTime() === dateEndFormatted.getTime() - 86400000) &&
+      if ((dateStartFormatted.getTime() === (dateEndFormatted.getTime() - 86400000)) &&
           dateStartFormatted.getMinutes() === 0 &&
-          dateStartFormatted.getHours() === 0) {
+          dateStartFormatted.getHours() === 21) {
         return true;
       }
 
@@ -131,12 +130,15 @@ var formatGoogleCalendar = (function() {
             moreDaysEvent = (typeof result.end.date !== 'undefined'),
             isAllDayEvent = isAllDay(dateStart, dateEnd);
 
-        if (moreDaysEvent) {
+
+
+        if (moreDaysEvent && !isAllDayEvent) {
           dateEnd = subtractOneDay(dateEnd);
         }
 
         if (isAllDayEvent) {
-          dateEnd = subtractOneMinute(dateEnd);
+
+          dateStart = dateEnd;
         }
 
         var dateFormatted = getFormattedDate(dateStart, dateEnd, moreDaysEvent, isAllDayEvent),
@@ -168,9 +170,20 @@ var formatGoogleCalendar = (function() {
                 }
             }
         }
-
-        return output + '</' + tagName + '>';
+        showEvents();
+        return output +'</' + tagName + '>';
     };
+
+
+
+    var showEvents = function (){
+        $('.loader').hide();
+        $('.past').css('cssText', 'display:block');
+        $('.calendar-content').css('cssText', 'display:block');
+      };
+
+
+
 
     //Check if date is later then now
     var isPast = function(date) {
@@ -226,27 +239,27 @@ var formatGoogleCalendar = (function() {
         }
 
         //day month year time-time
-        return  dateStart[0] + ' de asdss ' + getMonthName(dateStart[1])  + ' del ' + dateStart[2] + formattedTime;
+        return  dateStart[0] + ' de ' + getMonthName(dateStart[1])  + ' del ' + dateStart[2] + formattedTime;
     };
 
     var formatDateOneDay = function(dateStart) {
       //day month, year
-      return dateStart[0] + ' de ' + getMonthName(dateStart[1]) + ' de ' + dateStart[2];
+      return  dateStart[0] + ' de ' + getMonthName(dateStart[1]) + ' del ' + dateStart[2];
     };
 
     var formatDateDifferentDay = function(dateStart, dateEnd) {
         //month day-day, year
-        return getMonthName(dateStart[1]) + ' ' + dateStart[0] + ' al ' + dateEnd[0] + ' de ' + dateStart[2];
+        return 'Del ' + dateStart[0] + ' al ' + dateEnd[0] + ' de ' + getMonthName(dateStart[1]) + ' del ' + dateStart[2];
     };
 
     var formatDateDifferentMonth = function(dateStart, dateEnd) {
         //month day - month day, year
-        return getMonthName(dateStart[1]) + ' de ' + dateStart[0] + ' hasta' + getMonthName(dateEnd[1]) + ' de ' + dateEnd[0] + 'de ' + dateStart[2];
+        return dateStart[0] + ' de ' + getMonthName(dateStart[1]) + ' al ' + dateEnd[0] + ' de ' + getMonthName(dateEnd[1]) + ' del ' + dateStart[2];
     };
 
     var formatDateDifferentYear = function(dateStart, dateEnd) {
         //day month, year - date month, year
-        return dateStart[0] + ' de ' + getMonthName(dateStart[1]) + ' de ' + dateStart[2] + 'hasta' + dateEnd[0] + ' de ' + getMonthName(dateEnd[1]) + ' de ' + dateEnd[2];
+        return dateStart[0] + ' de ' + getMonthName(dateStart[1]) + ' del ' + dateStart[2] + 'hasta' + dateEnd[0] + ' de ' + getMonthName(dateEnd[1]) + ' del ' + dateEnd[2];
     };
 
     //Check differences between dates and format them

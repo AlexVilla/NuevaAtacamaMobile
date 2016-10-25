@@ -137,7 +137,6 @@ var formatGoogleCalendar = (function() {
         }
 
         if (isAllDayEvent) {
-
           dateStart = dateEnd;
         }
 

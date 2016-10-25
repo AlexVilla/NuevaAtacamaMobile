@@ -142,9 +142,9 @@
             <script ...>
             formatGoogleCalendar.init({
                   calendarUrl:'https://www.googleapis.com/calendar/v3/calendars/multimedia.calendar.nva@gmail.com/events?key=AIzaSyDVxTf06-uK3NJRZijMT1u1CA0W-na6BCU&maxResults=2500',
-                  past: true,
+                  past: false,
                   upcoming: true,
-                  pastTopN: 20,
+                  pastTopN: -1,
                   upcomingTopN: 14,
                   itemsTagName: 'p class="list-group-item" onclick="calendar.openoptions(this)"',
                   upcomingSelector: '.calendar-content',
@@ -156,25 +156,36 @@
 
 
             $('#calendar').on('click', function(){
-              var oneDayEvent = $(this).attr('data-date').indexOf('al'),
-                  moreDayEvent = $(this).attr('data-date').indexOf('desde'),
-                  title = $(this).attr('data-title'),
+              var title = $(this).attr('data-title'),
+                  date = $(this).attr('data-date'),
                   location = $(this).attr('data-location').replace(/\+/g, ' ');
-
-              //funciones para agregar eventos al calendario
-              if (oneDayEvent != -1) {
-              //evento de un solo dia, por ende solo utilizo una fecha
-              var fechaInicio =$(this).attr('data-date').split('al')[0].replace(/\D|\d{4}/g, '');
-              var fechaFin =$(this).attr('data-date').split('al')[1].replace(/\D|\d{4}/g, '');
-              var mes;
-
-              }else if (moreDayEvent != -1) {
-                var data = calendar.moreDayEventToCalendar($(this));
-                startDate = data[0];
-                endDate = data[1];
-                window.plugins.calendar.createEventInteractively(title, location, '', startDate, endDate);
-              }
+                  opt = $(this).attr('data-date').split(/del{0,1}/ig).length,
+                  setUp = calendar.createEventOnCalendar(opt, $(this));
+                  startDate = setUp[0];
+                  endDate = setUp[1];
+                  window.plugins.calendar.createEventInteractively(title, location, '', startDate, endDate);
             });
+
+            var modalVerticalCenterClass = ".modal";
+            function centerModals($element) {
+                var $modals;
+                if ($element.length) {
+                    $modals = $element;
+                } else {
+                    $modals = $(modalVerticalCenterClass + ':visible');
+                }
+                $modals.each( function(i) {
+                    var $clone = $(this).clone().css('display', 'block').appendTo('body');
+                    var top = Math.round(($clone.height() - $clone.find('.modal-content').height()) / 2);
+                    top = top > 0 ? top : 0;
+                    $clone.remove();
+                    $(this).find('.modal-content').css("margin-top", top);
+                });
+            }
+            $(modalVerticalCenterClass).on('show.bs.modal', function(e) {
+                centerModals($(this));
+            });
+            $(window).on('resize', centerModals);
             <{{!}}/script>
         </script>
 
@@ -190,6 +201,10 @@
             <script src="js/view/LetraView.js"></script>
             <script src="js/view/CalendarView.js"></script>
             <script src="js/main.js"></script>
+
+
+<script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
+</script>
 </body>
 
 </html>

@@ -25,7 +25,6 @@ var app = {
             value = navigator.notification.confirm(message, app.onConfirmTransm, title, ['Continuar', 'Cancelar']);
         } else {
             value = confirm(title ? (title + ": " + message) : message);
-            console.log(value);
             app.onConfirmTransm(1);
         }
     },
@@ -102,12 +101,12 @@ var app = {
         });
 
         $(".goCalendar").click(function() {
-            //            var networkState = navigator.connection.type;
-            //            if (networkState === "none") {
-            //                $.proxy(app.showAlert("Necesita internet para acceder", "Error"), app);
-            //            } else {
-            window.location.hash = '#calendar';
-            //}
+            var networkState = navigator.connection.type;
+            if (networkState === "none") {
+                $.proxy(app.showAlert("Necesita internet para acceder", "Error"), app);
+            } else {
+                window.location.hash = '#calendar';
+            }
         });
         $(window).on('hashchange', $.proxy(this.route, this));
     },
@@ -247,6 +246,7 @@ var calendar = {
     },
 
     transformDate: function(date) {
+        //recibe dia DE mes DEL año (ej: 10 de enero del 1999)
         date = date.split(/del{0,1}/g);
         var meses = {
             'Enero': 'Jan',
@@ -271,7 +271,6 @@ var calendar = {
     },
 
     moreDayEventToCalendar: function(callElement) {
-        //evento de más de un día, por ende tengo fecha de termino y de inicio diferentes
         var horaInicio, horaTermino, fecha = $(callElement).attr('data-date').split(/desde|hasta/g),
             startDate, endDate;
         fecha[0] = calendar.transformDate(fecha[0]);
@@ -281,7 +280,58 @@ var calendar = {
         startDate = new Date(fecha + horaInicio);
         endDate = new Date(fecha + horaTermino);
         return [startDate, endDate];
-    }
+    },
 
+    createEventOnCalendar: function(opt, element) {
+        //funciones para agregar eventos al calendario
+        var startDate, endDate;
+        switch (opt) {
+            case 3: // actividad de todo el día
+                var date = calendar.transformDate($(element).attr('data-date'));
+                startDate = new Date(date);
+                startDate = new Date(startDate.getTime() + 86400000);
+                endDate = startDate;
+                break;
+            case 4: //actividad con 2 dias en el mismo mes o de 2 en diferente mes
+                if ($(element).attr('data-date').split(' ')[0] === 'Del') { //contiene del, que corresponde a actividades dentro del mismo mes
+                    date = $(element).attr('data-date').split(' ');
+                    startDay = date[1];
+                    endDay = date[3];
+                    month = date[5];
+                    year = date[7];
+                    startDate = startDay + ' de ' + month + ' del ' + year;
+                    startDate = calendar.transformDate(startDate);
+                    endDate = endDay + ' de ' + month + ' de ' + year;
+                    endDate = calendar.transformDate(endDate);
+                    startDate = new Date(startDate);
+                    endDate = new Date(endDate);
+                    startDate = new Date(startDate.getTime() + 86400000);
+                    endDate = new Date(endDate.getTime() + 86400000);
+                } else { // actividad con 2 dias, pero de diferente mes
+                    date = $(element).attr('data-date').split('al');
+                    year = 'del ' + date[1].trim().split(' ')[4];
+                    startDate = date[0] + year;
+                    startDate = calendar.transformDate(startDate);
+                    endDate = date[1];
+                    endDate = calendar.transformDate(endDate);
+                    startDate = new Date(startDate);
+                    endDate = new Date(endDate);
+                    startDate = new Date(startDate.getTime() + 86400000);
+                    endDate = new Date(endDate.getTime() + 86400000);
+                }
+                break;
+            case 5: //actividad durante el dia con horario
+                var data = calendar.moreDayEventToCalendar(element);
+                startDate = data[0];
+                endDate = data[1];
+                break;
+            case 7:
+                break;
+            default:
+                break;
+        }
+
+        return [startDate, endDate];
+    }
 };
 app.initialize();

@@ -218,18 +218,22 @@ var himno = {
 
 
 var calendar = {
-    showMap: function(q) {
-        var device = navigator.userAgent;
-        var url = 'http://maps.google.com?q=' + q;
-        if (device.match(/Iphone/i) || device.match(/iPhone|iPad|iPod/i)) {
-            // iOs
-            url = 'http://maps.apple.com/maps?q=Current%20Location&daddr=' + q;
-        } else if (device.match(/Android/i)) {
-            // Android
-            url = 'geo:0,0?q=' + q;
-        }
-        return url;
+    showMap: function (q){
+      launchnavigator.navigate(destination);
     },
+
+    // showMap: function(q) {
+    //     var device = navigator.userAgent;
+    //     var url = 'http://maps.google.com?q=' + q;
+    //     if (device.match(/Iphone/i) || device.match(/iPhone|iPad|iPod/i)) {
+    //         // iOs
+    //         url = 'http://maps.apple.com/maps?q=Current%20Location&daddr=' + q;
+    //     } else if (device.match(/Android/i)) {
+    //         // Android
+    //         url = 'geo:0,0?q=' + q;
+    //     }
+    //     return url;
+    // },
 
     openoptions: function(element) {
         var actividad = $(element).children('.summary').text();

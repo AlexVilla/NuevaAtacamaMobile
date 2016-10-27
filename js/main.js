@@ -101,13 +101,13 @@ var app = {
         });
 
         $(".goCalendar").click(function() {
-            var networkState = navigator.connection.type;
-            if (networkState === "none") {
-                $.proxy(app.showAlert("Necesita internet para acceder", "Error"), app);
-            } else {
+            // var networkState = navigator.connection.type;
+            // if (networkState === "none") {
+            //     $.proxy(app.showAlert("Necesita internet para acceder", "Error"), app);
+            // } else {
                 window.location.hash = '#calendar';
-            }
-        });
+        //     }
+         });
         $(window).on('hashchange', $.proxy(this.route, this));
     },
 
@@ -218,33 +218,34 @@ var himno = {
 
 
 var calendar = {
-    showMap: function (q){
-      launchnavigator.navigate(q);
-    },
-
-    // showMap: function(q) {
-    //     var device = navigator.userAgent;
-    //     var url = 'http://maps.google.com?q=' + q;
-    //     if (device.match(/Iphone/i) || device.match(/iPhone|iPad|iPod/i)) {
-    //         // iOs
-    //         url = 'http://maps.apple.com/maps?q=Current%20Location&daddr=' + q;
-    //     } else if (device.match(/Android/i)) {
-    //         // Android
-    //         url = 'geo:0,0?q=' + q;
-    //     }
-    //     return url;
+    // showMap: function (destinationAddress){
+    //   launchnavigator.navigate(destinationAddress, {
+    //     appSelectionDialogHeader: "Seleccione la aplicación con que buscar esta dirección"
+    //   });
     // },
+
+    showMap: function(q) {
+        var device = navigator.userAgent;
+        var url = 'http://maps.google.com?q=' + q;
+        if (device.match(/Iphone/i) || device.match(/iPhone|iPad|iPod/i)) {
+            // iOs
+            //url = 'http://maps.apple.com/maps?q=Current%20Location&daddr=' + q;
+            url = 'maps://?q=' + q;
+        } else if (device.match(/Android/i)) {
+            // Android
+            url = 'geo:0,0?q=' + q;
+        }
+        return url;
+    },
 
     openoptions: function(element) {
         var actividad = $(element).children('.summary').text();
         var direccion = $(element).children('.location').text().replace(/\s/gi, "+").split('/');
-        var LocationURL = $('#maps').on('click', function(){
-           calendar.showMap(direccion[0]);
-        });
+        var LocationURL = calendar.showMap(direccion[0]);
         var date = $(element).children('.date').text();
         var modal = $('#myModal');
         modal.find('.modal-title').text(actividad);
-        //modal.find('#maps').attr('href', LocationURL);
+        modal.find('#maps').attr('href', LocationURL);
         modal.find('#calendar').attr('data-date', date);
         modal.find('#calendar').attr('data-title', actividad);
         modal.find('#calendar').attr('data-location', direccion);

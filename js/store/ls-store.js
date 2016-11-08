@@ -55,7 +55,15 @@ var LocalStorageStore = function (successCallback, errorCallback) {
         window.localStorage.setItem("himnario", bd);
     });
 
-
     callLater(successCallback);
 
+}
+
+var setVersion = function(version){
+    window.localStorage.setItem('version', version);
+}
+
+var checkVersion = function(){
+    var version = window.localStorage.getItem('version');
+    return(version);
 }

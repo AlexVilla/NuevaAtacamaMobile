@@ -48,7 +48,9 @@ a, a:hover, a:active, a:visited {
     color: white;
     text-decoration: none;
 }
-
+.nav-tabs>li>a{
+    color:  black;
+}
 body {
     background-color: #EEE;
     color: #FFF;
@@ -136,6 +138,9 @@ body {
 }
 
 .calendar-content {
+    margin-top: 15px;
+}
+.calendar-content-permanent {
     margin-top: 15px;
 }
 

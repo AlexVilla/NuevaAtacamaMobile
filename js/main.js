@@ -1,3 +1,4 @@
+'use strict';
 var app = {
     changeImg: function(ancho) {
         if (ancho < 768) {
@@ -69,7 +70,7 @@ var app = {
                 $('body').html(new CalendarView().render().el);
                 break;
             default:
-                $.proxy(this.showAlert("Contacte a soporte", "Error"), this);
+                //$.proxy(this.showAlert("Contacte a soporte", "Error"), this);
                 $('body').html(new HomeView(self.store).render().el);
         }
     },
@@ -105,9 +106,9 @@ var app = {
             // if (networkState === "none") {
             //     $.proxy(app.showAlert("Necesita internet para acceder", "Error"), app);
             // } else {
-                window.location.hash = '#calendar';
-        //     }
-         });
+            window.location.hash = '#calendar';
+            //     }
+        });
         $(window).on('hashchange', $.proxy(this.route, this));
     },
 
@@ -218,12 +219,6 @@ var himno = {
 
 
 var calendar = {
-    // showMap: function (destinationAddress){
-    //   launchnavigator.navigate(destinationAddress, {
-    //     appSelectionDialogHeader: "Seleccione la aplicación con que buscar esta dirección"
-    //   });
-    // },
-
     showMap: function(q) {
         var device = navigator.userAgent;
         var url = 'http://maps.google.com?q=' + q;
@@ -252,6 +247,15 @@ var calendar = {
         $('#myModal').modal();
     },
 
+    openoptions2: function(element) {
+        var actividad = $(element).children('.summary').text();
+        var direccion = $(element).children('.location').text().replace(/\s/gi, "+").split('/');
+        var LocationURL = calendar.showMap(direccion[0]);
+        var modal = $('#myModal2');
+        modal.find('.modal-title').text(actividad);
+        modal.find('#maps').attr('href', LocationURL);
+        $('#myModal2').modal();
+    },
     transformDate: function(date) {
         //recibe dia DE mes DEL año (ej: 10 de enero del 1999)
         date = date.split(/del{0,1}/g);

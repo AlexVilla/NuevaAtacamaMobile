@@ -102,12 +102,12 @@ var app = {
         });
 
         $(".goCalendar").click(function() {
-            // var networkState = navigator.connection.type;
-            // if (networkState === "none") {
-            //     $.proxy(app.showAlert("Necesita internet para acceder", "Error"), app);
-            // } else {
+            var networkState = navigator.connection.type;
+            if (networkState === "none") {
+                $.proxy(app.showAlert("Necesita internet para acceder", "Error"), app);
+            } else {
             window.location.hash = '#calendar';
-            //     }
+                 }
         });
         $(window).on('hashchange', $.proxy(this.route, this));
     },
@@ -274,7 +274,7 @@ var calendar = {
             'Diciembre': 'Dec',
         };
         date[0] = date[0].trim();
-        mes = date[1].trim();
+        var mes = date[1].trim();
         date[1] = meses[mes];
         date[2] = date[2].trim();
         date = date.join(' ');

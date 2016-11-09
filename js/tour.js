@@ -14,7 +14,7 @@ var tour = {
         }
     }, {
         title: "Haz click aquí",
-        width: 250,
+        width: 150,
         content: "para ver las actividades semanales",
         target: "diaria-tab",
         placement: "bottom",

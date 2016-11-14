@@ -107,7 +107,7 @@ var app = {
                 $.proxy(app.showAlert("Necesita internet para acceder", "Error"), app);
             } else {
             window.location.hash = '#calendar';
-                 }
+            } 
         });
         $(window).on('hashchange', $.proxy(this.route, this));
     },
@@ -236,11 +236,16 @@ var calendar = {
     openoptions: function(element) {
         var actividad = $(element).children('.summary').text();
         var direccion = $(element).children('.location').text().replace(/\s/gi, "+").split('/');
-        var LocationURL = calendar.showMap(direccion[0]);
-        var date = $(element).children('.date').text();
         var modal = $('#myModal');
+        if (direccion[0]=="") {
+            $('#maps').css('display', 'none');
+        }else{
+            $('#maps').css('display', 'inherit');
+            var LocationURL = calendar.showMap(direccion[0]);
+            modal.find('#maps').attr('href', LocationURL);
+        }
+        var date = $(element).children('.date').text();
         modal.find('.modal-title').text(actividad);
-        modal.find('#maps').attr('href', LocationURL);
         modal.find('#calendar').attr('data-date', date);
         modal.find('#calendar').attr('data-title', actividad);
         modal.find('#calendar').attr('data-location', direccion);

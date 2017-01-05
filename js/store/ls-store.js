@@ -19,6 +19,7 @@ var LocalStorageStore = function (successCallback, errorCallback) {
             var fullName = contenido;
             return fullName.toLowerCase().indexOf(searchKey.toLowerCase()) > -1;
         });
+        console.log(results);
         callLater(callback, results);
     }
 

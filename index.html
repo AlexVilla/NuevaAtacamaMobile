@@ -34,22 +34,31 @@
         <script ...>
             $(document).ready(function(){
                 app.changeImg($(window).width());
+
                 setTimeout(function(){
                     var version = checkVersion();
+                    
                     if (version == null) {
                         setVersion('no-set');
-                        checkVersion();
+                        version = checkVersion();
                     } else {
-                        checkVersion();
+                        version = checkVersion();
                     }
 
-                    var LastVersion = '1.1.0';
+                    var LastVersion = '1.1.x';
+                    var BugUpdate = false;
+                    //si la version anterior está dentro del mismo rango, entonces es una actualizacion de bug
+                    if(version == '1.1.0' && LastVersion == '1.1.x'){
+                        BugUpdate = true;
+                    }
 
-                    if ((version == "no-set") || (version != LastVersion)) {
-                    //INICIO DEL TOUR;  
-                        hopscotch.startTour(tour);
-                    //SET VERSION ACTUAL PARA EVITAR QUE SE VUELVA A ABRIR EL TOUR
-                        setVersion(LastVersion);
+                    if (!BugUpdate){
+                        if ((version == "no-set") || (version != LastVersion)) {
+                        //INICIO DEL TOUR;  
+                            hopscotch.startTour(tour);
+                        //SET VERSION ACTUAL PARA EVITAR QUE SE VUELVA A ABRIR EL TOUR
+                            setVersion(LastVersion);
+                        }
                     }
 
                 }, 200)

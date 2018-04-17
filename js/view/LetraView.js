@@ -50,6 +50,7 @@ var LetraView = function (himno) {
                 var contenido = contenido.replace(/cristo\s/gi, 'Cristo ');
                 var contenido = contenido.replace(/jesucristo\s|jesuCristo\s/gi, 'Jesucristo ');
                 var contenido = contenido.charAt(0).toUpperCase() + contenido.slice(1);
+                var contenido = contenido.toUpperCase();
                 himno[i] = contenido;
             }
         }

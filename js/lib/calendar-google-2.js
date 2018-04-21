@@ -154,11 +154,11 @@ var formatGoogleCalendar = (function() {
             if (format[i] === '*summary*') {
                 output = output.concat('<span class="summary">' + summary + '</span> <br>');
             } else if (format[i] === '*date*') {
-                output = output.concat('<span class="date">' + dateFormatted + '</span> <br>');
+                output = output.concat('<span class="date">' + dateFormatted + '</span>');
             } else if (format[i] === '*description*') {
-                output = output.concat('<span class="description">' + description + '</span> <br>');
+                output = output.concat('<small><span class="description center">' + description + '</span></small><br>');
             } else if (format[i] === '*location*') {
-                output = output.concat('<span class="location">' + location + '</span> <br>');
+                output = output.concat('<span class="location">' + location + '</span><br>');
             } else {
                 if ((format[i + 1] === '*location*' && location !== '') ||
                     (format[i + 1] === '*summary*' && summary !== '') ||

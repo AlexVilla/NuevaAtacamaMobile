@@ -118,6 +118,9 @@ var app = {
             StatusBar.overlaysWebView(false);
             StatusBar.backgroundColorByHexString("#62555c");
             $(".logo").css("margin", "10px 0");
+            document.getElementById("website").innerHTML = "<i class='fab fa-safari fa-2x purple-text'></i>"
+        }else{
+            document.getElementById("website").innerHTML = "<i class='fab fa-chrome fa-2x purple-text'></i>"
         }
     },
 

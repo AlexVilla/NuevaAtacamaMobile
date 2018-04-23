@@ -36,19 +36,17 @@
         <div class="navbar-fixed-bottom" style="padding-bottom: 5%">
             <div class="container">
                 <div class="row center">
-                    <div class="col-md-offset-1 col-xs-offset-1 col-sm-offset-1 col-md-2 col-xs-2 col-sm-2">
-                        <a href="#" onclick="cordova.InAppBrowser.open(encodeURI('https://www.facebook.com/nuevatacama/'), '_system', 'location=yes');"><i class="fab fa-facebook fa-2x purple-text"></i></a>
-                     </div>
-                    <div class="col-md-2 col-xs-2 col-sm-2" id="website">
-
+                    <div class="col-md-offset-1 col-xs-offset-1 col-sm-offset-1 col-md-2 col-xs-2 col-sm-2" id="website">
                     </div>
                     <div class="col-md-2 col-xs-2 col-sm-2">
-                        <i class="fab fa-twitter fa-2x purple-text"></i>
+                        <a href="#" onclick="cordova.InAppBrowser.open(encodeURI('https://www.facebook.com/nuevatacama/'), '_system', 'location=yes');"><i class="fab fa-facebook fa-2x purple-text"></i></a>
                     </div>
                     <div class="col-md-2 col-xs-2 col-sm-2">
                         <i class="fab fa-instagram fa-2x purple-text"></i>
                     </div>
                     <div class="col-md-2 col-xs-2 col-sm-2">
+                        <i class="fab fa-twitter fa-2x purple-text"></i>
+                        </div>
                         <i class="fab fa-youtube fa-2x purple-text"></i>
                     </div>
                 </div>
@@ -56,16 +54,6 @@
         </div>
         <script ...>
             $(document).ready(function(){
-                if (typeof(device) !== 'undefined'){
-                    if(device.platform == "Android"){
-                        document.getElementById("website").innerHTML = "<i class='fab fa-chrome fa-2x purple-text'></i>"
-                    }else{
-                        document.getElementById("website").innerHTML = "<i class='fab fa-safari fa-2x purple-text'></i>"
-                    }
-                }else{
-                    document.getElementById("website").innerHTML = "<i class='fab fa-edge fa-2x purple-text'></i>"
-                }
-
                 app.changeImg($(window).width());
             });
 

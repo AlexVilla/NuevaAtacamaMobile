@@ -118,9 +118,9 @@ var app = {
             StatusBar.overlaysWebView(false);
             StatusBar.backgroundColorByHexString("#62555c");
             $(".logo").css("margin", "10px 0");
-            document.getElementById("website").innerHTML = "<i class='fab fa-safari fa-2x purple-text'></i>"
+            document.getElementById("website").innerHTML = "<a href='#' onclick='cordova.InAppBrowser.open(encodeURI(\"http://www.iglesianuevatacama.cl/\"), \"_system\", \"location=yes\"); return false'><i class='fab fa-safari fa-2x purple-text'></i></a>"
         }else{
-            document.getElementById("website").innerHTML = "<i class='fab fa-chrome fa-2x purple-text'></i>"
+            document.getElementById("website").innerHTML = "<a href='#' onclick='cordova.InAppBrowser.open(encodeURI(\"http://www.iglesianuevatacama.cl/\"), \"_system\", \"location=yes\"); return false'><i class='fab fa-chrome fa-2x purple-text'></i></a>"
         }
     },
 

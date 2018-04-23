@@ -31,7 +31,7 @@
         <preference name="FadeSplashScreen" value="false" />
 
         <!-- Orientacion -->
-        <!--<preference name="orientation" value="portrait"/>-->
+        <preference name="orientation" value="portrait"/>
         <!-- Plugins -->
         <plugin name="cordova-plugin-statusbar" source="npm" />
         <plugin name="cordova-plugin-device" spec="1.0.1" source="npm" />

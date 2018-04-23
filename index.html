@@ -2,8 +2,9 @@
 
 <head>
     <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/hopscotch.min.css">
+    <!--<link rel="stylesheet" href="css/hopscotch.min.css">-->
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 </head>
@@ -32,48 +33,40 @@
             </div>
         </div>
 
-        <div class="navbar-fixed-bottom">
+        <div class="navbar-fixed-bottom" style="padding-bottom: 5%">
             <div class="container">
                 <div class="row center">
-                    <div class="col-md-offset-1 col-xs-offset-1 col-sm-offset-1 col-md-2 col-xs-2 col-sm-2">fb</div>
-                    <div class="col-md-2 col-xs-2 col-sm-2">web</div>
-                    <div class="col-md-2 col-xs-2 col-sm-2">tw</div>
-                    <div class="col-md-2 col-xs-2 col-sm-2">Ig</div>
-                    <div class="col-md-2 col-xs-2 col-sm-2">Yb</div>
+                    <div class="col-md-offset-1 col-xs-offset-1 col-sm-offset-1 col-md-2 col-xs-2 col-sm-2">
+                        <a href="https://www.facebook.com/nuevatacama/"><i class="fab fa-facebook fa-2x purple-text"></i></a>
+                     </div>
+                    <div class="col-md-2 col-xs-2 col-sm-2" id="website">
+
+                    </div>
+                    <div class="col-md-2 col-xs-2 col-sm-2">
+                        <i class="fab fa-twitter fa-2x purple-text"></i>
+                    </div>
+                    <div class="col-md-2 col-xs-2 col-sm-2">
+                        <i class="fab fa-instagram fa-2x purple-text"></i>
+                    </div>
+                    <div class="col-md-2 col-xs-2 col-sm-2">
+                        <i class="fab fa-youtube fa-2x purple-text"></i>
+                    </div>
                 </div>
             </div>
         </div>
         <script ...>
             $(document).ready(function(){
+                if (typeof(device) !== 'undefined'){
+                    if(device.platform == "Android"){
+                        document.getElementById("website").innerHTML = "<i class='fab fa-chrome fa-2x purple-text'></i>"
+                    }else{
+                        document.getElementById("website").innerHTML = "<i class='fab fa-safari fa-2x purple-text'></i>"
+                    }
+                }else{
+                    document.getElementById("website").innerHTML = "<i class='fab fa-edge fa-2x purple-text'></i>"
+                }
+
                 app.changeImg($(window).width());
-
-                setTimeout(function(){
-                    var version = checkVersion();
-                    
-                    if (version == null) {
-                        setVersion('no-set');
-                        version = checkVersion();
-                    } else {
-                        version = checkVersion();
-                    }
-
-                    var LastVersion = '1.1.x';
-                    var BugUpdate = false;
-                    //si la version anterior está dentro del mismo rango, entonces es una actualizacion de bug
-                    if(version == '1.1.0' && LastVersion == '1.1.x'){
-                        BugUpdate = true;
-                    }
-
-                    if (!BugUpdate){
-                        if ((version == "no-set") || (version != LastVersion)) {
-                        //INICIO DEL TOUR;  
-                            //hopscotch.startTour(tour);
-                        //SET VERSION ACTUAL PARA EVITAR QUE SE VUELVA A ABRIR EL TOUR
-                            setVersion(LastVersion);
-                        }
-                    }
-
-                }, 200)
             });
 
             $(window).resize(function(){
@@ -215,9 +208,6 @@
                 </div>
             </div>
             <script ...>
-            if (hopscotch.getState() === "naming-steps:1") {
-                   hopscotch.startTour(tour);
-                }
             formatGoogleCalendar.init({
                   calendarUrl:'https://www.googleapis.com/calendar/v3/calendars/multimedia.calendar.nva@gmail.com/events?key=AIzaSyDVxTf06-uK3NJRZijMT1u1CA0W-na6BCU&maxResults=2500',
                   past: false,
@@ -288,8 +278,6 @@
             <script src="js/view/HimnarioView.js"></script>
             <script src="js/view/LetraView.js"></script>
             <script src="js/view/CalendarView.js"></script>
-            <script src="js/lib/hopscotch.min.js"></script>
-            <script src="js/tour.js"></script>
             <script src="js/main.js"></script>
 </script>
 </body>

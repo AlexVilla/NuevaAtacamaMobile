@@ -30,6 +30,15 @@ var app = {
         }
     },
 
+    socialMedia: function(index){
+        if(index===1){
+            //facebook
+            cordova.InAppBrowser.open(encodeURI('fb://page/998470653583958'), '_system', 'location=yes');
+        }else if (index===2){
+            //instagram
+            console.log(cordova.InAppBrowser.open(encodeURI('instagram://user?username=impnva'), '_system', 'location=yes'));
+        }
+    },
 
     onConfirmTransm: function(button) {
         if (button === 1) {

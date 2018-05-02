@@ -47,6 +47,7 @@ var app = {
             window.location.hash = '';
         }
     },
+
     route: function() {
         var hash = window.location.hash;
         if (!hash) {

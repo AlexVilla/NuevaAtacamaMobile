@@ -36,8 +36,15 @@ var app = {
             cordova.InAppBrowser.open(encodeURI('fb://page/998470653583958'), '_system', 'location=yes');
         }else if (index===2){
             //instagram
-            console.log(cordova.InAppBrowser.open(encodeURI('instagram://user?username=impnva'), '_system', 'location=yes'));
+            cordova.InAppBrowser.open(encodeURI('instagram://user?username=impnva'), '_system', 'location=yes');
+        }else if (index===3){
+            //twitter
+            cordova.InAppBrowser.open(encodeURI('twitter://user?user_id=130153571'), '_system', 'location=yes');
+        }else if (index===4){
+            //youtube
+            cordova.InAppBrowser.open(encodeURI('https://www.youtube.com/user/MultimediaNVA'), '_system', 'location=yes');
         }
+        return false;
     },
 
     onConfirmTransm: function(button) {

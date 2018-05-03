@@ -45,7 +45,7 @@
         <!--<plugin name="cordova-plugin-calendar" source="npm"/>-->
     <!-- <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" source="npm" /> -->
 
-        <icon src="app_ico.png" />
+        <icon src="icon.png" />
 
         <!-- Define app icon and splashscreen -->
         <platform name="ios">
@@ -83,7 +83,7 @@
         </platform>
 
 		<platform name="android">
-            <icon src="app_ico.png" />
+            <icon src="icon.png" />
             <!-- establece la posibilidad de mover la app a la sd-->
             <preference name="android-installLocation" value="auto" />
 		</platform>

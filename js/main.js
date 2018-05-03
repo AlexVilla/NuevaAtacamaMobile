@@ -36,7 +36,30 @@ var app = {
             cordova.InAppBrowser.open(encodeURI('fb://page/998470653583958'), '_system', 'location=yes');
         }else if (index===2){
             //instagram
-            cordova.InAppBrowser.open(encodeURI('instagram://user?username=impnva'), '_system', 'location=yes');
+
+            if (device.platform == "android") {
+                appAvailability.checkBool('com.instagram.android', function (availability) {
+                    // availability is either true or false
+                    if (availability) {
+                        console.log("Instagram disponible en android");
+                        cordova.InAppBrowser.open(encodeURI('instagram://user?username=impnva'), '_system', 'location=yes');
+                    } else {
+                        cordova.InAppBrowser.open(encodeURI('https://www.instagram.com/impnva/'), '_system', 'location=yes');
+                    }
+                });
+            }else if (device.platform == "iOS") {
+                appAvailability.checkBool('instagram://', function (availability) {
+                    // availability is either true or false
+                    if (availability) {
+                        console.log("Instagram disponible en iOS");
+                        cordova.InAppBrowser.open(encodeURI('instagram://user?username=impnva'), '_system', 'location=yes');
+                    } else {
+                        cordova.InAppBrowser.open(encodeURI('https://www.instagram.com/impnva/'), '_system', 'location=yes');
+                    }
+                });
+            }
+
+
         }else if (index===3){
             //twitter
             cordova.InAppBrowser.open(encodeURI('twitter://user?user_id=130153571'), '_system', 'location=yes');

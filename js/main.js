@@ -37,7 +37,7 @@ var app = {
         }else if (index===2){
             //instagram
 
-            if (device.platform == "android") {
+            if (device.platform == "Android") {
                 appAvailability.checkBool('com.instagram.android', function (availability) {
                     // availability is either true or false
                     if (availability) {

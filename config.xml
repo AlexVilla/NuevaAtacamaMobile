@@ -22,6 +22,8 @@
         <preference name="android-minSdkVersion" value="14" />
         <!-- <preference name="android-build-tool" value="gradle" />  -->
 
+        <!-- Define a specific version of PhoneGap to build into your app. -->
+        <!--<preference name="phonegap-version" value="cli-5.2.0" />-->
         <preference name="disable-push-notifications" value="1" />
         <!-- splash screen preferences -->
         <preference name="show-splash-screen-spinner" value="false" />
@@ -42,51 +44,40 @@
         <plugin name="cordova-plugin-inappbrowser" source="npm" />
         <plugin name="cordova-plugin-appavailability" source="npm" />
 
+    <!--<plugin name="cordova-plugin-calendar" source="npm"/>-->
+    <!-- <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" source="npm" /> -->
+
         <icon src="icon.png" />
-        <splash src="splash.png" />
 
-
-    <!-- Define app icon and splashscreen -->
+        <!-- Define app icon and splashscreen -->
         <platform name="ios">
 
             <!-- iPhone 6 / 6+ -->
-            <icon src="img/icons/icon-60@3x.png" platform="ios" width="180" height="180" />
+            <icon src="img/icon-60@3x.png" platform="ios" width="180" height="180" />
 
             <!-- iPhone / iPod Touch  -->
-            <icon src="img/icons/icon-60@1x.png" platform="ios" width="60" height="60" />
-            <icon src="img/icons/icon-60@2x.png" platform="ios" width="120" height="120" />
+            <icon src="img/icon-60@1x.png" platform="ios" width="60" height="60" />
+            <icon src="img/icon-60@2x.png" platform="ios" width="120" height="120" />
 
             <!-- iPad -->
-            <icon src="img/icons/icon-76@1x.png" platform="ios" width="76" height="76" />
-            <icon src="img/icons/icon-76@2x.png" platform="ios" width="152" height="152" />
+            <icon src="img/icon-76@1x.png" platform="ios" width="76" height="76" />
+            <icon src="img/icon-76@2x.png" platform="ios" width="152" height="152" />
 
             <!-- Settings icon -->
-            <icon src="img/icons/icon-small@1x.png" platform="ios" width="29" height="29" />
-            <icon src="img/icons/icon-small@2x.png" platform="ios" width="58" height="58" />
+            <icon src="img/icon-small@1x.png" platform="ios" width="29" height="29" />
+            <icon src="img/icon-small@2x.png" platform="ios" width="58" height="58" />
 
             <!-- Spotlight icon -->
-            <icon src="img/icons/icon-40@1x.png" platform="ios" width="40" height="40" />
-            <icon src="img/icons/icon-40@2x.png" platform="ios" width="80" height="80" />
+            <icon src="img/icon-40@1x.png" platform="ios" width="40" height="40" />
+            <icon src="img/icon-40@2x.png" platform="ios" width="80" height="80" />
 
             <!-- iPad -->
-            <icon src="img/icons/icon-72@1x.png" platform="ios" width="72" height="72" />
-            <icon src="img/icons/icon-72@2x.png" platform="ios" width="144" height="144" />
+            <icon src="img/icon-72@1x.png" platform="ios" width="72" height="72" />
+            <icon src="img/icon-72@2x.png" platform="ios" width="144" height="144" />
 
             <!-- iPad Spotlight and Settings icon -->
-            <icon src="img/icons/icon-50@1x.png" platform="ios" width="50" height="50" />
-            <icon src="img/icons/icon-50@2x.png" platform="ios" width="100" height="100" />
-
-
-            <splash height="1136" platform="ios" src="img/screens/ios/Default-568h@2x~iphone.png" width="640" />
-            <splash height="1334" platform="ios" src="img/screens/ios/Default-667h.png" width="750" />
-            <splash height="2208" platform="ios" src="img/screens/ios/Default-736h.png" width="1242" />
-            <splash height="1242" platform="ios" src="img/screens/ios/Default-Landscape-736h.png" width="2208" />
-            <splash height="1536" platform="ios" src="img/screens/ios/Default-Landscape@2x~ipad.png" width="2048" />
-            <splash height="768" platform="ios" src="img/screens/ios/Default-Landscape~ipad.png" width="1024" />
-            <splash height="2048" platform="ios" src="img/screens/ios/Default-Portrait@2x~ipad.png" width="1536" />
-            <splash height="1024" platform="ios" src="img/screens/ios/Default-Portrait~ipad.png" width="768" />
-            <splash height="960" platform="ios" src="img/screens/ios/Default@2x~iphone.png" width="640" />
-            <splash height="480" platform="ios" src="img/screens/ios/Default~iphone.png" width="320" />
+            <icon src="img/icon-50@1x.png" platform="ios" width="50" height="50" />
+            <icon src="img/icon-50@2x.png" platform="ios" width="100" height="100" />
         </platform>
 
 		<platform name="android">
@@ -95,7 +86,7 @@
             <preference name="android-installLocation" value="auto" />
 		</platform>
         <content src="index.html" />
-        <!-- Allow external imgources -->
+        <!-- Allow external resources -->
         <allow-navigation href="*" />
         <access origin="*" />
         <!--<allow-intent href="*" />-->

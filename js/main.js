@@ -33,10 +33,9 @@ var app = {
     socialMedia: function(index){
         if(index===1){
             //facebook
-            cordova.InAppBrowser.open(encodeURI('fb://page/998470653583958'), '_system', 'location=yes');
+            cordova.InAppBrowser.open(encodeURI('https://www.facebook.com/nuevatacama/'), '_system', 'location=yes');
         }else if (index===2){
             //instagram
-
             if (device.platform == "Android") {
                 appAvailability.checkBool('com.instagram.android', function (availability) {
                     // availability is either true or false
@@ -62,7 +61,28 @@ var app = {
 
         }else if (index===3){
             //twitter
-            cordova.InAppBrowser.open(encodeURI('twitter://user?user_id=130153571'), '_system', 'location=yes');
+            if (device.platform == "Android") {
+                appAvailability.checkBool('com.instagram.android', function (availability) {
+                    // availability is either true or false
+                    if (availability) {
+                        console.log("Instagram disponible en android");
+                        cordova.InAppBrowser.open(encodeURI('twitter://user?user_id=130153571'), '_system', 'location=yes');
+                    } else {
+                        cordova.InAppBrowser.open(encodeURI('https://twitter.com/nueva_atacama'), '_system', 'location=yes');
+                    }
+                });
+            }else if (device.platform == "iOS") {
+                appAvailability.checkBool('instagram://', function (availability) {
+                    // availability is either true or false
+                    if (availability) {
+                        console.log("Instagram disponible en iOS");
+                        cordova.InAppBrowser.open(encodeURI('twitter://user?user_id=130153571'), '_system', 'location=yes');
+                    } else {
+                        cordova.InAppBrowser.open(encodeURI('https://twitter.com/nueva_atacama'), '_system', 'location=yes');
+                    }
+                });
+            }
+
         }else if (index===4){
             //youtube
             cordova.InAppBrowser.open(encodeURI('https://www.youtube.com/user/MultimediaNVA'), '_system', 'location=yes');

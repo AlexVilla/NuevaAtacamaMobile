@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
     <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
-    <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="cl.iglesianuevatacama.www" version="1.2.0">
+    <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="cl.iglesianuevatacama.www" version="1.3.0">
 
         <name>Iglesia Nueva Atacama</name>
 
@@ -48,8 +48,10 @@
     <!-- <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" source="npm" /> -->
 
         <icon src="icon.png" />
+        <splash src="splash.png" />
 
-        <!-- Define app icon and splashscreen -->
+
+    <!-- Define app icon and splashscreen -->
         <platform name="ios">
 
             <!-- iPhone 6 / 6+ -->

@@ -60,7 +60,7 @@ var app = {
         }else if (index===3){
             //twitter
             if (device.platform == "Android") {
-                appAvailability.checkBool('com.instagram.android', function (availability) {
+                appAvailability.checkBool('com.twitter.android', function (availability) {
                     // availability is either true or false
                     if (availability) {
                         cordova.InAppBrowser.open(encodeURI('twitter://user?user_id=130153571'), '_system', 'location=yes');
@@ -69,7 +69,7 @@ var app = {
                     }
                 });
             }else if (device.platform == "iOS") {
-                appAvailability.checkBool('instagram://', function (availability) {
+                appAvailability.checkBool('twitter://', function (availability) {
                     // availability is either true or false
                     if (availability) {
                         cordova.InAppBrowser.open(encodeURI('twitter://user?user_id=130153571'), '_system', 'location=yes');

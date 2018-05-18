@@ -91,11 +91,11 @@ var app = {
             $.proxy(app.showAlert("Está a punto de ser redirigido a nuestro sitio web", "Atención"), app);
             window.setTimeout(function() {
                 if (device.platform == "Android") {
-                    navigator.app.loadUrl('http://www.iglesianuevatacama.cl/m/#./EN-VIVO', {
+                    navigator.app.loadUrl('http://www.iglesianuevatacama.cl/en-vivo/', {
                         openExternal: true
                     });
                 } else if (device.platform == "iOS") {
-                    cordova.InAppBrowser.open(encodeURI('http://www.iglesianuevatacama.cl/m/#./EN-VIVO'), '_system');
+                    cordova.InAppBrowser.open(encodeURI('http://www.iglesianuevatacama.cl/en-vivo/'), '_system');
                 }
             }, 2000);
         } else {
@@ -147,11 +147,11 @@ var app = {
                 $.proxy(app.showAlert("Está a punto de ser redirigido a nuestro sitio web", "Atención"), app);
                 window.setTimeout(function() {
                     if (device.platform == "Android") {
-                        navigator.app.loadUrl('http://www.iglesianuevatacama.cl/m/#./EN-VIVO', {
+                        navigator.app.loadUrl('http://www.iglesianuevatacama.cl/en-vivo/', {
                             openExternal: true
                         });
                     } else if (device.platform == "iOS") {
-                        cordova.InAppBrowser.open(encodeURI('http://www.iglesianuevatacama.cl/m/#./EN-VIVO'), '_system');
+                        cordova.InAppBrowser.open(encodeURI('http://www.iglesianuevatacama.cl/en-vivo/'), '_system');
                     }
                 }, 2000);
             }
